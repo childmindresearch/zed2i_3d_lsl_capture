@@ -3,6 +3,8 @@ import os
 import pandas as pd
 from datetime import datetime
 import pathlib as pl
+import openpyxl
+from settings import OUTPUT_DIR
 
 
 def record_svo(participant_ID, sequence, zed, lsl_outlet):
@@ -16,10 +18,10 @@ def record_svo(participant_ID, sequence, zed, lsl_outlet):
         zed: zed camera object.
         lsl_outlet: pylsl object to stream markers.
     """
-    os.makedirs(pl.Path("zed2i_SVO_files"), exist_ok=True)
-    output_dir = "zed2i_SVO_files"
+    output_dir = pl.Path(OUTPUT_DIR) / "zed2i_SVO_files"
+    os.makedirs(output_dir, exist_ok=True)
     output_svo_file = (
-        pl.Path(output_dir)
+        output_dir
         / f"{participant_ID}_seq{sequence}_{datetime.now().strftime('%Y-%m-%d.%f')}.svo2"
     )
 
@@ -51,9 +53,12 @@ def record_svo(participant_ID, sequence, zed, lsl_outlet):
 
 def save_sequence(participant_ID, sequence, dataframe):
     # Specify the file path and sheet name
-    os.makedirs(pl.Path("zed2i_xlsx_files"), exist_ok=True)
-    output_dir = "zed2i_xlsx_files"
-    file_path = output_dir + f"/{participant_ID}.xlsx"
+    output_dir = pl.Path(OUTPUT_DIR) / "zed2i_xlsx_files"
+    os.makedirs(output_dir, exist_ok=True)
+    file_path = (
+        output_dir 
+        / f"{participant_ID}.xlsx"
+    )
     sheet_name = f"seq{sequence}"
 
     # Try to load the existing file and add a new sheet

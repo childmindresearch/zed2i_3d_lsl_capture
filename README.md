@@ -89,7 +89,7 @@ uv run get_python_api.py
 6. Install repository-dependent packages
 
 ```sh
-uv pip install pandas pygetwindow pylsl screeninfo
+uv pip install openpyxl pandas pygetwindow pylsl screeninfo
 ```
 
 
